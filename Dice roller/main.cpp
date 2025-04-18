@@ -7,7 +7,7 @@
 #define EXIT_FAILURE -1
 #define EXIT_SUCCESS 0
 
-const std::string LONG_SPACE = "                                                                                                                        ";
+const std::string LONG_SPACE = "                                                                                                    ";
 const std::string HELP_STRING = "Usage: prgname [starting die faces]";
 const std::string EXIT_MESSAGE = "Hope you enjoyed your game!";
 
@@ -118,12 +118,11 @@ void roll(int d, int n)
 		*(ptrIntArray + i) = generator(engine);
 
 	std::qsort((void*)ptrIntArray, n, sizeof(int), 
-		[](const void* num1, const void* num2)
+		[](const void* p_num1, const void* p_num2)
 		{
-			if (*((const int*)num1) < *((const int*)num2))
-				return -1;
-			else
-				return 1;
+			int num1 = *((const int*)p_num1);
+			int num2 = *((const int*)p_num2);
+			return (num1 > num2) - (num1 < num2);
 		});
 
 	for (int i = 0; i < n; ++i)

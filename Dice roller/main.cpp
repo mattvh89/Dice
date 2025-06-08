@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 	// Check if a valid command line argument was given, which should be a single positive integer
 	if (argc > 2)																	// should only take 1 argument so argc == 2 because first argument is progname name
 	{
-		std::cout << HELP_STRING << std::endl;
+		std::cout << "Usage: " << argv[0] << " [starting die faces]" << std::endl;
 		return EXIT_FAILURE;
 	}
 	if (argc == 2)																	// correct number of arguments, so try to parse it into an integer
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
 		if (ss.fail() or startingFaces < 2)											// if it's not a valid integer or it's less than 2, print the help string and quit with error code
 		{
-			std::cout << HELP_STRING << std::endl;
+			std::cout << "Usage: " << argv[0] << " [starting die faces]" << std::endl;
 			return EXIT_FAILURE;
 		}
 	}
@@ -59,7 +59,7 @@ void mainMenu(int p_faces)
 		std::cout << LONG_SPACE;
 		SetConsoleCursorPosition(stdOutHandle, { 0, START_COORD.Y });
 
-		std::cout << "How many faces? ";											// Prompt for how many faces
+		std::cout << "Starting faces: ";											// Prompt for how many faces
 
 		if (p_faces > 1)															// if a valid cl arg was passed we know how many faces
 		{																			// and can skip the input, but output the number
@@ -107,14 +107,13 @@ void mainMenu(int p_faces)
 
 void roll(int d, int n)
 {
-	if (d < 2 or n < 1) return;
-
 	std::random_device randomDevice;
 	std::mt19937 engine(randomDevice());
 	std::uniform_int_distribution<> generator(1, d);
 	int* ptrIntArray = new int[n];
+	int i = 0;
 
-	for (int i = 0; i < n; ++i)
+	for (; i < n; ++i)
 		*(ptrIntArray + i) = generator(engine);
 
 	std::qsort((void*)ptrIntArray, n, sizeof(int), 
@@ -125,7 +124,7 @@ void roll(int d, int n)
 			return (num1 > num2) - (num1 < num2);
 		});
 
-	for (int i = 0; i < n; ++i)
+	for (i = 0; i < n; ++i)
 		std::cout << *(ptrIntArray + i) << " ";
 	std::cout << std::endl;
 
